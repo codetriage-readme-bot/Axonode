@@ -17,3 +17,7 @@
 3.
 4.
 
+## System Information
+* **Version**: compulsory. you must provide your version
+* **Platform**: Windows, version and 32-bit or
+  64-bit
