@@ -67,9 +67,9 @@ int getOS()
 char* GetActiveWindowTitle()
 {
 	HWND hWnd = GetForegroundWindow();
-	int nLen = GetWindowTextLength(hWnd);
-	char *szTitle = (char*)malloc(nLen + 2);
-	GetWindowTextA(hWnd, szTitle, nLen + 1);
+	int nLen = GetWindowTextLength(hWnd) + 1;
+	char *szTitle = (char*)malloc(nLen + 1);
+	GetWindowTextA(hWnd, szTitle, nLen);
 
 	return szTitle;
 
