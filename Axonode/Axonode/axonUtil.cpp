@@ -77,3 +77,28 @@ char* GetActiveWindowTitle()
 }
 
 #pragma endregion
+
+#pragma region SS
+
+void dumpSS()
+{
+	HDC hScreen = GetDC(NULL);
+	HDC hDC = CreateCompatibleDC(hScreen);
+	int width = GetDeviceCaps(hDC, HORZRES);
+	int height = GetDeviceCaps(hDC, VERTRES);
+	HBITMAP hBitmap = CreateCompatibleBitmap(hScreen, width, height);
+	HGDIOBJ old_obj = SelectObject(hDC, hBitmap);
+	BOOL bRet = BitBlt(hDC, 0, 0, width, height, hScreen, 0, 0, SRCCOPY);
+
+	OpenClipboard(NULL);
+	EmptyClipboard();
+	SetClipboardData(CF_BITMAP, hBitmap);
+	CloseClipboard();
+
+	SelectObject(hDC, old_obj);
+	DeleteDC(hDC);
+	ReleaseDC(NULL, hScreen);
+	DeleteObject(hBitmap);
+}
+
+#pragma endregion
