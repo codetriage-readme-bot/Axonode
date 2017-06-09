@@ -59,14 +59,15 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 }
 #pragma endregion
 
-#pragma region WindowHk
+#pragma region ActiveWindow
 
-LRESULT CALLBACK windowChangeHook(int nCode, WPARAM wParam, LPARAM lParam)
+VOID CALLBACK WinEventProcCallback(HWINEVENTHOOK hWinEventHook, DWORD dwEvent, HWND hwnd, LONG idObject, LONG idChild, DWORD dwEventThread, DWORD dwmsEventTime)
 {
-	if (nCode == HCBT_SETFOCUS || lParam == HCBT_SETFOCUS)
-		cout << "COCK";
-
-	return(CallNextHookEx(NULL, nCode, wParam, lParam));
+	if (dwEvent == EVENT_SYSTEM_FOREGROUND)
+	{
+		cout << "\n [WINDOW CHANGE] \n";
+		cout << GetActiveWindowTitle() << endl << endl;
+	}
 }
 
 #pragma endregion
@@ -74,7 +75,8 @@ LRESULT CALLBACK windowChangeHook(int nCode, WPARAM wParam, LPARAM lParam)
 int main()
 {	
 	HHOOK hhkLowLevelKybd = SetWindowsHookEx(WH_KEYBOARD_LL, LowLevelKeyboardProc, 0, 0);
-	HHOOK hhkWindowChange = SetWindowsHookEx(WH_CBT, (HOOKPROC)windowChangeHook, 0, 0);
+	HWINEVENTHOOK hEvent = SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, NULL,
+		WinEventProcCallback, 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
 	
 	MSG msg;
 
