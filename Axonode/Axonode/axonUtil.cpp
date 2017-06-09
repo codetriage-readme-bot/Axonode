@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "axonUtil.h"
+#include <string>
 #include <windows.h>
+#include <stdio.h>
+#include <iostream>
 #pragma warning(disable: 4996)
 
 #pragma region RetrieveOS
@@ -57,4 +60,20 @@ int getOS()
 
 	return os;
 }
+#pragma endregion
+
+#pragma region winTitle
+
+char* GetActiveWindowTitle()
+{
+	HWND hWnd = GetForegroundWindow();
+	int nLen = GetWindowTextLength(hWnd);
+	char *szTitle = (char*)malloc(nLen + 1);
+	GetWindowTextA(hWnd, szTitle, nLen);
+
+	return szTitle;
+
+	free(szTitle);
+}
+
 #pragma endregion

