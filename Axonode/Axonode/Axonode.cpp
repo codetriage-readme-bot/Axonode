@@ -97,7 +97,7 @@ VOID CALLBACK WinEventProcCallback(HWINEVENTHOOK hWinEventHook, DWORD dwEvent, H
 {
 	if (dwEvent == EVENT_SYSTEM_FOREGROUND)
 	{
-		cout << "\n[WINDOW CHANGE]\n";
+		cout << "\n [WINDOW CHANGE] \n";
 		cout << getWindowTitle() << endl << endl;
 	}
 }
