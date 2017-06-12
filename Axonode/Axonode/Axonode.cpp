@@ -106,7 +106,7 @@ VOID CALLBACK WinEventProcCallback(HWINEVENTHOOK hWinEventHook, DWORD dwEvent, H
 
 int main()
 {	
-  MSG msg;
+	MSG msg;
 	if (getStartup(L"Axonode") == FALSE)
 		addStartup();
   
