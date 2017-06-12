@@ -2,6 +2,8 @@
 ### This is still a work in progress
 Axonode is an open-source keylogger written in C++ to display the posibilities of what can be done with the language. The keylogger is for Windows systems only.
 
+![](https://media.giphy.com/media/xUA7b1TsDAYscRgzFS/giphy.gif)
+
 ## Installation
 
 TODO: Describe the installation process
