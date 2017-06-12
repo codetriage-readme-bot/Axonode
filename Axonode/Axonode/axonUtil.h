@@ -1,5 +1,10 @@
+#include <string>
+#include <windows.h>
 #pragma once
 using namespace std;
 extern int getOS();
-char* GetActiveWindowTitle();
-void dumpSS();
+char* getWindowTitle();
+string getPath();
+wchar_t* getWChar(string in);
+void saveBMP(HBITMAP bitmap, HDC hDC, LPTSTR filename);
+void getScreenShot();

