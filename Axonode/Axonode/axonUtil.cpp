@@ -77,8 +77,6 @@ char* getWindowTitle()
 	GetWindowTextA(hWnd, szTitle, nLen);
 
 	return szTitle;
-
-	free(szTitle);
 }
 
 #pragma endregion

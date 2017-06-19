@@ -95,11 +95,13 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 #pragma region ActiveWindow
 VOID CALLBACK WinEventProcCallback(HWINEVENTHOOK hWinEventHook, DWORD dwEvent, HWND hwnd, LONG idObject, LONG idChild, DWORD dwEventThread, DWORD dwmsEventTime)
 {
+	char* winTitle = getWindowTitle();
 	if (dwEvent == EVENT_SYSTEM_FOREGROUND)
 	{
 		cout << "\n[WINDOW CHANGE]\n";
-		cout << getWindowTitle() << endl << endl;
+		cout << winTitle << endl << endl;
 	}
+	free(winTitle);
 }
 
 #pragma endregion
