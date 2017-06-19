@@ -2,4 +2,4 @@ version: 0.0.{build}
 build:
   verbosity: normal
 on_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - codecov
