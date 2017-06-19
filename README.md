@@ -1,4 +1,5 @@
 # Axonode
+[![Build status](https://ci.appveyor.com/api/projects/status/gm1eswntla3dppsn?svg=true)](https://ci.appveyor.com/project/TachyonRSA/axonode)
 ### This is still a work in progress
 Axonode is an open-source keylogger written in C++ to display the posibilities of what can be done with the language. The keylogger is for Windows systems only.
 
