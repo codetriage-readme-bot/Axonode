@@ -1,11 +1,11 @@
 #include <string>
 #include <windows.h>
 #pragma once
-using namespace std;
-extern int getOS();
+
+std::string getOS();
 char* getWindowTitle();
-string getPath();
-wchar_t* getWChar(string in);
+std::string getPath();
+wchar_t* getWChar(std::string in);
 void saveBMP(HBITMAP bitmap, HDC hDC, LPTSTR filename);
 void getScreenShot();
 BOOL getStartup(PCWSTR appName);

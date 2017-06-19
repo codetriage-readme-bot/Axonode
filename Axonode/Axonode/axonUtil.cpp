@@ -8,60 +8,127 @@
 #include <time.h>
 #include <direct.h>
 #include <shlwapi.h>
+#include <VersionHelpers.h>
 #pragma comment (lib, "shlwapi")
-#pragma warning(disable: 4996)
 
 #pragma region RetrieveOS
-int getOS()
+BOOL WINAPI isXP()
 {
-	/**
-	* OS VERSIONS AS FOLLOWS:
-	* 0 - Windows 2000
-	* 1 - Windows XP
-	* 2 - Widnows XP Pro x64 / Server 2003(R2)
-	* 3 - Windows Vista / Server 2008
-	* 4 - Windows 7 / Server 2008 R2
-	* 5 - Windows 8 / Server 2012
-	* 6 - Windows 8.1 / Server 2012 R2
-	* 7 - Windows 10 / Server 2016
-	*/
+	OSVERSIONINFOEX info;
+	DWORDLONG dwlCondition = 0;
+	int op = VER_GREATER_EQUAL;
 
-	int os = NULL;
+	ZeroMemory(&info, sizeof(OSVERSIONINFOEX));
+	info.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+	info.dwMajorVersion = 5;
+	info.dwMinorVersion = 1;
 
-	OSVERSIONINFO info;
-	ZeroMemory(&info, sizeof(OSVERSIONINFO));
-	info.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+	VER_SET_CONDITION(dwlCondition, VER_MAJORVERSION, op);
+	VER_SET_CONDITION(dwlCondition, VER_MINORVERSION, op);
 
-	GetVersionEx(&info);
+	return VerifyVersionInfo(&info, VER_MAJORVERSION | VER_MINORVERSION, dwlCondition);
+}
 
-	switch (info.dwMajorVersion)
-	{
-	case 5:
-		if (info.dwMinorVersion == 0)
-			os = 0;
-		else if (info.dwMinorVersion == 1)
-			os = 1;
-		else if (info.dwMinorVersion == 2)
-			os = 2;
-		break;
-	case 6:
-		if (info.dwMinorVersion == 0)
-			os = 3;
-		else if (info.dwMinorVersion == 1)
-			os = 4;
-		else if (info.dwMinorVersion == 2)
-			os = 5;
-		else if (info.dwMinorVersion == 3)
-			os = 6;
-		break;
-	case 10:
-		if (info.dwMinorVersion == 0)
-			os = 7;
-		break;
-	default:
-		os = 4; //Set the deafult to most used OS, Windows 7.
-		break;
-	}
+BOOL WINAPI isVista()
+{
+	OSVERSIONINFOEX info;
+	DWORDLONG dwlCondition = 0;
+	int op = VER_GREATER_EQUAL;
+
+	ZeroMemory(&info, sizeof(OSVERSIONINFOEX));
+	info.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+	info.dwMajorVersion = 6;
+	info.dwMinorVersion = 0;
+
+	VER_SET_CONDITION(dwlCondition, VER_MAJORVERSION, op);
+	VER_SET_CONDITION(dwlCondition, VER_MINORVERSION, op);
+
+	return VerifyVersionInfo(&info, VER_MAJORVERSION | VER_MINORVERSION, dwlCondition);
+}
+
+BOOL WINAPI isWin7()
+{
+	OSVERSIONINFOEX info;
+	DWORDLONG dwlCondition = 0;
+	int op = VER_GREATER_EQUAL;
+
+	ZeroMemory(&info, sizeof(OSVERSIONINFOEX));
+	info.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+	info.dwMajorVersion = 6;
+	info.dwMinorVersion = 1;
+
+	VER_SET_CONDITION(dwlCondition, VER_MAJORVERSION, op);
+	VER_SET_CONDITION(dwlCondition, VER_MINORVERSION, op);
+
+	return VerifyVersionInfo(&info, VER_MAJORVERSION | VER_MINORVERSION, dwlCondition);
+}
+
+BOOL WINAPI isWin8()
+{
+	OSVERSIONINFOEX info;
+	DWORDLONG dwlCondition = 0;
+	int op = VER_GREATER_EQUAL;
+
+	ZeroMemory(&info, sizeof(OSVERSIONINFOEX));
+	info.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+	info.dwMajorVersion = 6;
+	info.dwMinorVersion = 2;
+
+	VER_SET_CONDITION(dwlCondition, VER_MAJORVERSION, op);
+	VER_SET_CONDITION(dwlCondition, VER_MINORVERSION, op);
+
+	return VerifyVersionInfo(&info, VER_MAJORVERSION | VER_MINORVERSION, dwlCondition);
+}
+
+BOOL WINAPI isWin81()
+{
+	OSVERSIONINFOEX info;
+	DWORDLONG dwlCondition = 0;
+	int op = VER_GREATER_EQUAL;
+
+	ZeroMemory(&info, sizeof(OSVERSIONINFOEX));
+	info.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+	info.dwMajorVersion = 6;
+	info.dwMinorVersion = 3;
+
+	VER_SET_CONDITION(dwlCondition, VER_MAJORVERSION, op);
+	VER_SET_CONDITION(dwlCondition, VER_MINORVERSION, op);
+
+	return VerifyVersionInfo(&info, VER_MAJORVERSION | VER_MINORVERSION, dwlCondition);
+}
+
+BOOL WINAPI isWin10()
+{
+	OSVERSIONINFOEX info;
+	DWORDLONG dwlCondition = 0;
+	int op = VER_GREATER_EQUAL;
+
+	ZeroMemory(&info, sizeof(OSVERSIONINFOEX));
+	info.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+	info.dwMajorVersion = 10;
+	info.dwMinorVersion = 0;
+
+	VER_SET_CONDITION(dwlCondition, VER_MAJORVERSION, op);
+	VER_SET_CONDITION(dwlCondition, VER_MINORVERSION, op);
+
+	return VerifyVersionInfo(&info, VER_MAJORVERSION | VER_MINORVERSION, dwlCondition);
+}
+std::string getOS()
+{
+	std::string os = "Unknown";
+
+	if (isWin10())
+		os = "Windows 10";
+	else if (isWin81())
+		os = "Windows 8.1";
+	else if (isWin8())
+		os = "Windows 8";
+	else if (isWin7())
+		os = "Windows 7";
+	else if (isVista())
+		os = "Windows Vista";
+	else if (isXP())
+		os = "Windows XP";
 
 	return os;
 }
@@ -83,12 +150,12 @@ char* getWindowTitle()
 
 #pragma region getPath
 
-string getPath()
+std::string getPath()
 {
 	char buffer[MAX_PATH];
 	GetModuleFileNameA(NULL, buffer, MAX_PATH);
-	string::size_type pos = string(buffer).find_last_of("\\/");
-	return string(buffer).substr(0, pos);
+	std::string::size_type pos = std::string(buffer).find_last_of("\\/");
+	return std::string(buffer).substr(0, pos);
 }
 
 
@@ -114,7 +181,7 @@ void saveBMP(HBITMAP bitmap, HDC hDC, LPTSTR filename)
 
 	if (!GetObject(bitmap, sizeof(BITMAP), (LPSTR)&bmp))
 	{
-		cout << "Could not retrieve bitmap info";
+		std::cout << "Could not retrieve bitmap info";
 		return;
 	}
 
@@ -163,14 +230,14 @@ void saveBMP(HBITMAP bitmap, HDC hDC, LPTSTR filename)
 	lpBits = (LPBYTE)GlobalAlloc(GMEM_FIXED, pbih->biSizeImage);
 
 	if (!lpBits) {
-		cout << "writeBMP::Could not allocate memory";
+		std::cout << "writeBMP::Could not allocate memory";
 		return;
 	}
 
 	// Retrieve the color table (RGBQUAD array) and the bits 
 	if (!GetDIBits(hDC, HBITMAP(bitmap), 0, (WORD)pbih->biHeight, lpBits, pbmi,
 		DIB_RGB_COLORS)) {
-		cout << "writeBMP::GetDIB error";
+		std::cout << "writeBMP::GetDIB error";
 		return;
 	}
 
@@ -179,7 +246,7 @@ void saveBMP(HBITMAP bitmap, HDC hDC, LPTSTR filename)
 		NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL,
 		(HANDLE)NULL);
 	if (hf == INVALID_HANDLE_VALUE) {
-		cout << "Could not create file for writing";
+		std::cout << "Could not create file for writing";
 		return;
 	}
 	hdr.bfType = 0x4d42; // 0x42 = "B" 0x4d = "M" 
@@ -198,7 +265,7 @@ void saveBMP(HBITMAP bitmap, HDC hDC, LPTSTR filename)
 	// Copy the BITMAPFILEHEADER into the .BMP file. 
 	if (!WriteFile(hf, (LPVOID)&hdr, sizeof(BITMAPFILEHEADER),
 		(LPDWORD)&dwTmp, NULL)) {
-		cout << "Could not write in to file";
+		std::cout << "Could not write in to file";
 		return;
 	}
 
@@ -206,7 +273,7 @@ void saveBMP(HBITMAP bitmap, HDC hDC, LPTSTR filename)
 	if (!WriteFile(hf, (LPVOID)pbih, sizeof(BITMAPINFOHEADER)
 		+ pbih->biClrUsed * sizeof(RGBQUAD),
 		(LPDWORD)&dwTmp, (NULL))) {
-		cout << "Could not write in to file";
+		std::cout << "Could not write in to file";
 		return;
 	}
 
@@ -215,25 +282,26 @@ void saveBMP(HBITMAP bitmap, HDC hDC, LPTSTR filename)
 	dwTotal = cb = pbih->biSizeImage;
 	hp = lpBits;
 	if (!WriteFile(hf, (LPSTR)hp, (int)cb, (LPDWORD)&dwTmp, NULL)) {
-		cout << "Could not write in to file";
+		std::cout << "Could not write in to file";
 		return;
 	}
 
 	// Close the .BMP file. 
 	if (!CloseHandle(hf)) {
-		cout << "Could not close file";
-		return;
+		std::cout << "Could not close file";
+		std::cout;
 	}
 
 	// Free memory. 
-	GlobalFree((HGLOBAL)lpBits);
+	GlobalFree(lpBits);
+	GlobalFree(pbmi);
 }
 
 #pragma endregion
 
 #pragma region getWChar
 
-wchar_t* getWChar(string in)
+wchar_t* getWChar(std::string in)
 {
 	wchar_t* wide_string = new wchar_t[in.length() + 1];
 	std::copy(in.begin(), in.end(), wide_string);
@@ -248,21 +316,24 @@ wchar_t* getWChar(string in)
 
 void getScreenShot()
 {
-	string path = getPath();
+	std::string path = getPath();
 	path += "\\Screenshots";
 
-	time_t _tm = time(NULL);
-	struct tm * curtime = localtime(&_tm);
+	struct tm newtime;
+	time_t now = time(0);
+	localtime_s(&newtime, &now);
+	
+	std::string curDTime = std::to_string(1900 + newtime.tm_year) + '-' + std::to_string(1 + newtime.tm_mon) + '-' + std::to_string(newtime.tm_mday) +
+		'-' + std::to_string(newtime.tm_hour) + '-' + std::to_string(1 + newtime.tm_min) + '-' + std::to_string(1 + newtime.tm_sec);
 
-	string fName = "ScreenShot-";
-	fName += "ScreenShot-";
-	fName += asctime(curtime);
+	std::string fName = "ScreenShot-";
+	fName += curDTime;
 	fName += ".bmp";
-	replace(fName.begin(), fName.end(), ' ', '-');
+	std::replace(fName.begin(), fName.end(), ' ', '-');
 	replace(fName.begin(), fName.end(), ':', '-');
 	fName.erase(remove(fName.begin(), fName.end(), '\n'), fName.end());
 
-	string fullPath = path + "\\" + fName;
+	std::string fullPath = path + "\\" + fName;
 
 	HDC hScreen = GetDC(NULL);
 	HDC hDC = CreateCompatibleDC(hScreen);
@@ -272,22 +343,25 @@ void getScreenShot()
 	HGDIOBJ old_obj = SelectObject(hDC, hBitmap);
 	BOOL bRet = BitBlt(hDC, 0, 0, width, height, hScreen, 0, 0, SRCCOPY);
 
+	wchar_t* newChar = getWChar(fName);
+
 	if (PathIsDirectoryA(path.c_str()) != 0)
 	{
-		saveBMP(hBitmap, hDC, getWChar(fName));
-		cout << "\n [SCREENSHOT SAVED] \n";
+		saveBMP(hBitmap, hDC, newChar);
+		std::cout << "\n [SCREENSHOT SAVED] \n";
 	}
 	else
 	{
-		mkdir(path.c_str());
-		saveBMP(hBitmap, hDC, getWChar(fName));
-		cout << "\n [SCREENSHOT SAVED] \n";
+		_mkdir(path.c_str());
+		saveBMP(hBitmap, hDC, newChar);
+		std::cout << "\n [SCREENSHOT SAVED] \n";
 	}
 
 	SelectObject(hDC, old_obj);
 	DeleteDC(hDC);
 	ReleaseDC(NULL, hScreen);
 	DeleteObject(hBitmap);
+	free(newChar);
 }
 
 #pragma endregion

