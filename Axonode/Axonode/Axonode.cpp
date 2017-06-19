@@ -99,7 +99,7 @@ VOID CALLBACK WinEventProcCallback(HWINEVENTHOOK hWinEventHook, DWORD dwEvent, H
 		std::cout << "\n[WINDOW CHANGE]\n";
 		std::cout << winTitle << std::endl << std::endl;
 	}
-	free(winTitle);
+	delete[] winTitle;
 }
 
 #pragma endregion

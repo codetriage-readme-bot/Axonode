@@ -140,7 +140,7 @@ char* getWindowTitle()
 {
 	HWND hWnd = GetForegroundWindow();
 	int nLen = GetWindowTextLength(hWnd) + 1;
-	char *szTitle = (char*)malloc(nLen + 1);
+	char *szTitle = new char[nLen + 1];
 	GetWindowTextA(hWnd, szTitle, nLen);
 
 	return szTitle;
@@ -361,7 +361,7 @@ void getScreenShot()
 	DeleteDC(hDC);
 	ReleaseDC(NULL, hScreen);
 	DeleteObject(hBitmap);
-	free(newChar);
+	delete[] newChar;
 }
 
 #pragma endregion
