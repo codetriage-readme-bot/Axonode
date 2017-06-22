@@ -345,7 +345,7 @@ void getScreenShot()
 	HGDIOBJ old_obj = SelectObject(hDC, hBitmap);
 	BOOL bRet = BitBlt(hDC, 0, 0, width, height, hScreen, 0, 0, SRCCOPY);
 
-	wchar_t* newChar = getWChar(fName);
+	wchar_t* newChar = getWChar(fullPath);
 
 	if (PathIsDirectoryA(path.c_str()) != 0)
 	{
